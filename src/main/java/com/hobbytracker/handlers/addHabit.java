@@ -19,12 +19,12 @@ import javax.swing.JOptionPane;
 import objects.Habit;
 import objects.Habit.IconType;
 
-public class HabitHandler {
+public class addHabit {
     
     private static Connection con;
     private static boolean isUpdating = false;
     private static boolean hasStarted = false;
-    private static ArrayList<Habit> habitList = new ArrayList<>();
+    private static final ArrayList<Habit> habitList = new ArrayList<>();
     
     public static void startManager(Connection connection){
         con = connection;
