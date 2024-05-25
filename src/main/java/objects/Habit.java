@@ -73,7 +73,7 @@ public class Habit {
     }
     
     public enum IconType{
-        RUNNING, MEDITATE;
+        RUNNING, MEDITATE, NONE;
         
         
     }
