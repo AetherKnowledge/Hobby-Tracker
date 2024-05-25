@@ -213,7 +213,6 @@ public class Login extends JPanel{
                 while (!Frame.hasPanelsLoaded() || !HobbyTracker.isConnected()) {
                     try {
                         System.out.println("Ayo wait a sec");
-                        
                         getParent().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         HobbyTracker.getLock().wait();
                     }

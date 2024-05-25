@@ -91,6 +91,7 @@ public class Frame extends JFrame implements ComponentListener{
     public void changeUser(User user){
         imageButton.changeImage(user.getIcon());
         email.setText(user.getEmail());
+        
     }
     
     public void createPanels(){
@@ -109,6 +110,7 @@ public class Frame extends JFrame implements ComponentListener{
             
             synchronized(HobbyTracker.getLock()){
                 HobbyTracker.getLock().notify();
+                panelsLoaded = true;
             }
             
             long endTime = System.currentTimeMillis();

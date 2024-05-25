@@ -16,26 +16,21 @@ import javax.imageio.ImageIO;
 
 public class User implements Serializable{
 
-    //pede dito gawing admin or something
-    private final UserType userType;
     private transient Image icon;
     private byte[] imageData;
     private String email;
     private String password;
-    private String studentNumber;
     private String fullName;
     private final LocalDateTime dateJoined;
     private final LocalDateTime lastUpdated;
     private boolean isImageDefault;
     private boolean isOnline = false;
     
-    public User(UserType userType, String email, String password,String fullName,String studentNumber, Image icon, LocalDateTime dateJoined, LocalDateTime lastUpdated, boolean isImageDefault){
+    public User(String email, String password,String fullName, Image icon, LocalDateTime dateJoined, LocalDateTime lastUpdated, boolean isImageDefault){
         this.dateJoined = dateJoined;
-        this.userType = userType;
         this.email = email;
         this.password = password;
         this.fullName = fullName;
-        this.studentNumber = studentNumber;
         this.lastUpdated = lastUpdated;
         this.isImageDefault = isImageDefault;
         
@@ -62,10 +57,6 @@ public class User implements Serializable{
         return ImageIO.read(bais);
     }
 
-    public UserType getUserType() {
-        return userType;
-    }
-
     public String getUserName() {
         return email;
     }
@@ -84,14 +75,6 @@ public class User implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getStudentNumber() {
-        return studentNumber;
-    }
-
-    public void setStudentNumber(String studentNumber) {
-        this.studentNumber = studentNumber;
     }
 
     public String getFullName() {
@@ -141,10 +124,6 @@ public class User implements Serializable{
 
     public void setIsOnline(boolean isOnline) {
         this.isOnline = isOnline;
-    }
-
-    public enum UserType{
-        ADMIN,USER;
     }
     
 }

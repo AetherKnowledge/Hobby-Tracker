@@ -3,8 +3,11 @@ package com.hobbytracker;
 
 import com.hobbytracker.components.CustomScrollBar;
 import com.hobbytracker.handlers.ConnectionHandler;
+import com.hobbytracker.handlers.UserHandler;
 import java.awt.Color;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
@@ -32,8 +35,8 @@ public class HobbyTracker {
         Thread startConnectionThread = new Thread(() -> {
             try{
                 updating = true;
-                sql.startConnection();
-//                loadObjects();
+                ConnectionHandler.startConnection();
+                loadObjects();
                 updating = false;
                 
                 synchronized (lock){
@@ -50,6 +53,15 @@ public class HobbyTracker {
         startConnectionThread.start();
         
         frame.setVisible(true);
+    }
+    
+    private static void loadObjects(){
+        
+        long startTime = System.currentTimeMillis();
+        UserHandler.startManager(sql.getConnection());
+        
+        long endTime = System.currentTimeMillis();
+        System.out.println("\nTime taken to connect : " + (endTime - startTime));
     }
     
     public static boolean isConnected() {

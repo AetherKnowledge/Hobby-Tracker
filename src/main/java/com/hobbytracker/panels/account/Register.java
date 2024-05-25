@@ -175,10 +175,6 @@ public class Register extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         rePasswordTextField = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        studNumTextField = new javax.swing.JTextField();
         togglePassVisible = new javax.swing.JToggleButton(){
             @Override
             public void paint(Graphics g){
@@ -320,7 +316,7 @@ public class Register extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(65, 78, 101));
         jLabel4.setText("Email");
         jPanel6.add(jLabel4);
-        jLabel4.setBounds(20, 150, 290, 15);
+        jLabel4.setBounds(20, 70, 290, 15);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -360,7 +356,7 @@ public class Register extends javax.swing.JPanel {
         });
 
         jPanel6.add(jPanel5);
-        jPanel5.setBounds(20, 170, 430, 40);
+        jPanel5.setBounds(20, 90, 430, 40);
         jPanel5.setBorder(new RoundedBorder(8,1));
 
         jLabel6.setBackground(new java.awt.Color(65, 78, 101));
@@ -368,7 +364,7 @@ public class Register extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(65, 78, 101));
         jLabel6.setText("Password");
         jPanel6.add(jLabel6);
-        jLabel6.setBounds(20, 220, 270, 15);
+        jLabel6.setBounds(20, 140, 270, 15);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -394,7 +390,7 @@ public class Register extends javax.swing.JPanel {
         passwordTextField.setBorder(BorderFactory.createEmptyBorder());
 
         jPanel6.add(jPanel7);
-        jPanel7.setBounds(20, 240, 430, 40);
+        jPanel7.setBounds(20, 160, 430, 40);
         jPanel7.setBorder(new RoundedBorder(8,1));
 
         termsAndConditions.setBackground(new java.awt.Color(255, 255, 255));
@@ -429,7 +425,7 @@ public class Register extends javax.swing.JPanel {
         rePasswordTextField.setBorder(BorderFactory.createEmptyBorder());
 
         jPanel6.add(jPanel8);
-        jPanel8.setBounds(20, 310, 430, 40);
+        jPanel8.setBounds(20, 230, 430, 40);
         jPanel8.setBorder(new RoundedBorder(8,1));
 
         jLabel9.setBackground(new java.awt.Color(65, 78, 101));
@@ -437,54 +433,7 @@ public class Register extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(65, 78, 101));
         jLabel9.setText("Re-Type Password");
         jPanel6.add(jLabel9);
-        jLabel9.setBounds(20, 290, 270, 15);
-
-        jLabel7.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(65, 78, 101));
-        jLabel7.setText("Student Number");
-        jPanel6.add(jLabel7);
-        jLabel7.setBounds(20, 80, 330, 15);
-
-        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel10.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(145, 145, 145));
-        jLabel10.setText("icn");
-        jPanel9.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-        personIcon = Utilities.changeImageColor(personIcon, PalleteColors.DROPDOWN);
-        personIcon = personIcon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        jLabel10.setText("");
-        jLabel10.setIcon(new ImageIcon(personIcon));
-
-        studNumTextField.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        studNumTextField.setForeground(new java.awt.Color(145, 145, 145));
-        studNumTextField.setText("Student Number");
-        studNumTextField.setBorder(null);
-        studNumTextField.setName("bookName"); // NOI18N
-        studNumTextField.setPreferredSize(new java.awt.Dimension(64, 22));
-        jPanel9.add(studNumTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 380, -1));
-        studNumTextField.setBorder(BorderFactory.createEmptyBorder());
-
-        studNumTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (studNumTextField.getText().equals("Student Number")) {
-                    studNumTextField.setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (studNumTextField.getText().isEmpty()) {
-                    studNumTextField.setText("Student Number");
-                }
-            }
-        });
-
-        jPanel6.add(jPanel9);
-        jPanel9.setBounds(20, 100, 430, 40);
-        jPanel9.setBorder(new RoundedBorder(8,1));
+        jLabel9.setBounds(20, 210, 270, 15);
 
         togglePassVisible.setText("jToggleButton1");
         togglePassVisible.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -610,7 +559,6 @@ public class Register extends javax.swing.JPanel {
 
     private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
         String fullName = fullNameTextField.getText();
-        String studentNum = studNumTextField.getText();
         String email = emailTextField.getText();
         String password = String.valueOf(passwordTextField.getPassword());
         String rePassword = String.valueOf(rePasswordTextField.getPassword());
@@ -619,16 +567,8 @@ public class Register extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(new JFrame(), "Email already Exists.");
             return;
         }
-        else if (UserHandler.doesUserExist("", studentNum)) {
-            JOptionPane.showMessageDialog(new JFrame(), "Student ID already Exists.");
-            return;
-        }
         else if (fullName.isEmpty() || fullName.equals("Full Name")) {
             JOptionPane.showMessageDialog(new JFrame(), "Full Name Field Empty.");
-            return;
-        }
-        else if (studentNum.isEmpty() || studentNum.equals("Student Number")) {
-            JOptionPane.showMessageDialog(new JFrame(), "Student Number Field Empty.");
             return;
         }
         else if (email.isEmpty() || email.equals("Email")) {
@@ -670,7 +610,7 @@ public class Register extends javax.swing.JPanel {
 
         password = Utilities.toBcrypt(passwordTextField.getPassword());
 
-        UserHandler.addUser(new User(User.UserType.USER, email, password,fullName,studentNum,userImg,LocalDateTime.now(),LocalDateTime.now(),!changedImage));
+        UserHandler.addUser(new User(email, password,fullName,userImg,LocalDateTime.now(),LocalDateTime.now(),!changedImage));
         userImg = defaultImage;
         changedImage = false;
 
@@ -679,7 +619,6 @@ public class Register extends javax.swing.JPanel {
         }
 
         fullNameTextField.setText("Full Name");
-        studNumTextField.setText("Student Number");
         emailTextField.setText("Email");
         passwordTextField.setText("Password");
         rePasswordTextField.setText("Password");
@@ -696,7 +635,6 @@ public class Register extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         fullNameTextField.setText("Full Name");
-        studNumTextField.setText("Student Number");
         emailTextField.setText("Email");
         passwordTextField.setText("Password");
         rePasswordTextField.setText("Password");
@@ -718,14 +656,12 @@ public class Register extends javax.swing.JPanel {
     private javax.swing.JTextField fullNameTextField;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -740,13 +676,11 @@ public class Register extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lcupIconLabel;
     private javax.swing.JLabel lcupLabel;
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JPasswordField rePasswordTextField;
     private javax.swing.JButton signInButton;
-    private javax.swing.JTextField studNumTextField;
     private javax.swing.JCheckBox termsAndConditions;
     private javax.swing.JToggleButton togglePassVisible;
     private javax.swing.JToggleButton toggleRePassVisible;
