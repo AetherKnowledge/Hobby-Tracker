@@ -132,13 +132,13 @@ public class HabitHandler {
     
     private static Habit getHabit(ResultSet rs) throws SQLException, IOException{
         String email = rs.getString("id");
-        String area = rs.getString("id");
-        String name = rs.getString("id");
-        LocalDateTime dateStart = rs.getTimestamp("id").toLocalDateTime();
+        String area = rs.getString("area");
+        String name = rs.getString("name");
+        LocalDateTime dateStart = rs.getTimestamp("dateStart").toLocalDateTime();
         ArrayList<DayOfWeek> daysOfWeek = (ArrayList<DayOfWeek>)Utilities.deserializeObj(rs.getBytes("id"));
-        LocalTime timeStart = rs.getTime("id").toLocalTime();
-        int durationSeconds = rs.getInt("id");
-        int ammount = rs.getInt("id");
+        LocalTime timeStart = rs.getTime("timeStart").toLocalTime();
+        int durationSeconds = rs.getInt("durationSeconds");
+        int ammount = rs.getInt("ammount");
         
         IconType iconType = null;
         for (IconType type : Habit.IconType.values()) {
