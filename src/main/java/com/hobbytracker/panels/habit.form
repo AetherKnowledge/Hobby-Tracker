@@ -24,7 +24,7 @@
                   <Component id="jLabel2" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="247" max="32767" attributes="0"/>
+              <EmptySpace pref="447" max="32767" attributes="0"/>
               <Component id="jButton1" min="-2" pref="90" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jButton2" min="-2" pref="36" max="-2" attributes="0"/>

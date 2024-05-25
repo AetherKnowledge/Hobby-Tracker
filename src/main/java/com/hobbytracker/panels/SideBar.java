@@ -71,7 +71,6 @@ public class SideBar extends javax.swing.JPanel {
 
         add(jPanel4);
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Areas");
         jLabel1.setAlignmentX(1.0F);
         jLabel1.setPreferredSize(new java.awt.Dimension(310, 16));
@@ -97,7 +96,6 @@ public class SideBar extends javax.swing.JPanel {
 
         add(jPanel5);
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Preferences");
         jLabel2.setAlignmentX(1.0F);
         jLabel2.setPreferredSize(new java.awt.Dimension(310, 16));
@@ -117,7 +115,6 @@ public class SideBar extends javax.swing.JPanel {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
