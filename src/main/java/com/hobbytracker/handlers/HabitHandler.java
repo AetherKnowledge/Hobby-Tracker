@@ -114,7 +114,7 @@ public class HabitHandler {
         habitList.removeAll(habitList);
         
         try {
-            String query = "SELECT * FROM user";
+            String query = "SELECT * FROM habit";
             ResultSet resultSet = con.createStatement().executeQuery(query);
             
             while (resultSet.next()) {
