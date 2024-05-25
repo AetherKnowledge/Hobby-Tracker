@@ -17,19 +17,19 @@ import java.util.logging.Logger;
 
 public class ConnectionHandler{
 
-    private static final String DB_NAME = "librarysystem";
+    private static final String DB_NAME = "hobbytracker";
     private static final String DB_DRIVER = Driver.class.getName();
     private static String DB_URL = "jdbc:mysql://localhost/"+DB_NAME;
     private static String DB_USERNAME = "root";
     private static String DB_PASSWORD = "";
     
     private static final boolean ONLINE_MODE = false;
-    private static final boolean AIVEN = true;
+    private static final boolean AIVEN = false;
     private static final String DB_HTTP = "https://related-seemingly-goose.ngrok-free.app" + "/ip.txt";
     
     private static Connection con;
     
-    public boolean startConnection() throws SQLException{
+    public static boolean startConnection() throws SQLException{
         if (AIVEN) {
             DB_URL = "jdbc:mysql://librarysystem-librarysystem.e.aivencloud.com:15306/"+DB_NAME;
             DB_USERNAME = "avnadmin";
@@ -61,7 +61,7 @@ public class ConnectionHandler{
         return con;
     }
     
-    public String getTCPAddress(){
+    private static String getTCPAddress(){
         StringBuilder tcpAddress = new StringBuilder();
         
         try {

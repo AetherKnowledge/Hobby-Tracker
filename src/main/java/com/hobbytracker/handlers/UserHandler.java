@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.Timestamp;
-import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.util.NoSuchElementException;
 import objects.User;
@@ -28,10 +27,9 @@ public final class UserHandler{
     private static ArrayList<User> usersList = new ArrayList<>();
     private static User currentUser;
     
-    public void startManager(Connection connection){
+    public static void startManager(Connection connection){
         con = connection;
         if (usersList.isEmpty()) loadUsersOnline();
-        if (usersList.isEmpty()) UserHandler.addStandardUsers();
         hasStarted = true;
     }
     
@@ -39,33 +37,29 @@ public final class UserHandler{
         usersUpdating = true;
 
         try {
-            String email,password,studNum,fullName,userType;
+            String email,password,fullName;
             int status;
             byte[] imageData = Utilities.serializeImage(user.getIcon());
             LocalDateTime dateJoined = user.getDateJoined();
 
             email = user.getEmail();
             password = user.getPassword();
-            studNum = user.getStudentNumber();
             fullName = user.getFullName();
-            userType = user.getUserType().name();
             status = 1;
             
             if (user.isImageDefault()) {
                 imageData = null;
             }
             
-            String queryRegister = "INSERT into user(email, password, imageData, studNum, fullName, dateJoined, userType, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String queryRegister = "INSERT into user(email, password, imageData, fullName, dateJoined, status) VALUES (?, ?, ?, ?, ?, ?)";
             
             PreparedStatement st = con.prepareStatement(queryRegister);
             st.setString(1, email);
             st.setString(2, password);
             st.setBytes(3, imageData);
-            st.setString(4, studNum);
-            st.setString(5, fullName);
-            st.setTimestamp(6, Timestamp.valueOf(dateJoined));
-            st.setString(7, userType);
-            st.setInt(8, status);
+            st.setString(4, fullName);
+            st.setTimestamp(5, Timestamp.valueOf(dateJoined));
+            st.setInt(6, status);
             st.executeUpdate();
             
             System.out.println("User " + user.getUserName() + " added successfully");
@@ -84,7 +78,7 @@ public final class UserHandler{
     public static void updateUser(User user, String oldEmail){
         usersUpdating = true;
 
-        String query = "UPDATE user SET email = ?, password = ?, fullName = ?, studNum = ?, imageData = ?, lastUpdated = ? WHERE email = ?";
+        String query = "UPDATE user SET email = ?, password = ?, fullName = ?, imageData = ?, lastUpdated = ? WHERE email = ?";
         try {
             byte[] imageData = null;
             if (!user.isImageDefault()) {
@@ -95,10 +89,9 @@ public final class UserHandler{
             st.setString(1, user.getEmail());
             st.setString(2, user.getPassword());
             st.setString(3, user.getFullName());
-            st.setString(4, user.getStudentNumber());
-            st.setBytes(5, imageData);
-            st.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-            st.setString(7, oldEmail);
+            st.setBytes(4, imageData);
+            st.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+            st.setString(6, oldEmail);
             st.execute();
             
             for (int i = 0; i < usersList.size(); i++) {
@@ -176,15 +169,8 @@ public final class UserHandler{
         String email = rs.getString("email");
         String password = rs.getString("password");
         byte[] imgArray = rs.getBytes("imageData");
-        String studNum = rs.getString("studNum");
         String fullName = rs.getString("fullName");
         LocalDateTime dateJoined = rs.getTimestamp("dateJoined").toLocalDateTime();
-        User.UserType userType = User.UserType.USER;
-        for (User.UserType type : User.UserType.values()) {
-            if (type.name().equals(rs.getString("userType"))) {
-                userType = type;
-            }
-        }
         LocalDateTime lastUpdated = rs.getTimestamp("lastUpdated").toLocalDateTime();
         
         boolean isImageDefault = imgArray == null;
@@ -196,7 +182,7 @@ public final class UserHandler{
             userImg = Utilities.createUserLogo(fullName.trim().toUpperCase().charAt(0));
         }
         
-        return new User(userType, email, password, fullName, studNum, userImg, dateJoined,lastUpdated, isImageDefault);
+        return new User(email, password, fullName, userImg, dateJoined,lastUpdated, isImageDefault);
     }
     
     public static User searchUser(String email){
@@ -360,58 +346,6 @@ public final class UserHandler{
         return onlineCount;
     }
     
-    public static void addStandardUsers() {
-        usersUpdating = true;
-        ImageIcon ayaya = Utilities.getImage("/textures/ayaya.png");
-        addUserSilent(new User(User.UserType.ADMIN, "admin", Utilities.toBcrypt("admin".toCharArray()), "admin", "69420", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
-        addUserSilent(new User(User.UserType.USER, "user", Utilities.toBcrypt("user".toCharArray()), "user", "12345678", ayaya.getImage(), LocalDateTime.now(), LocalDateTime.now(),false));
-        usersUpdating = false;
-    }
-    
-    public static void addUserSilent(User user){
-        usersUpdating = true;
-
-        try {
-            String email,password,studNum,fullName,userType;
-            int status;
-            byte[] imageData = Utilities.serializeImage(user.getIcon());
-            LocalDateTime dateJoined = user.getDateJoined();
-
-            email = user.getEmail();
-            password = user.getPassword();
-            studNum = user.getStudentNumber();
-            fullName = user.getFullName();
-            userType = user.getUserType().name();
-            status = 1;
-            
-            if (user.isImageDefault()) {
-                imageData = null;
-            }
-            
-            String queryRegister = "INSERT into user(email, password, imageData, studNum, fullName, dateJoined, userType, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            
-            PreparedStatement st = con.prepareStatement(queryRegister);
-            st.setString(1, email);
-            st.setString(2, password);
-            st.setBytes(3, imageData);
-            st.setString(4, studNum);
-            st.setString(5, fullName);
-            st.setTimestamp(6, Timestamp.valueOf(dateJoined));
-            st.setString(7, userType);
-            st.setInt(8, status);
-            st.executeUpdate();
-            
-            System.out.println("User " + user.getUserName() + " added successfully");
-            usersList.add(user);
-        }
-        catch (SQLException | IOException ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(new JFrame(), "Invalid Account","Error",0);
-        }
-        
-        usersUpdating = false;
-    }
-    
     public static boolean isLoginSuccessful(String username, char[] password) {
         try{
             User user = usersList.stream().filter(email -> email.getEmail().equals(username)).findFirst().get();
@@ -421,9 +355,8 @@ public final class UserHandler{
             }
         }
         catch (NoSuchElementException e){
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
         }
-        JOptionPane.showMessageDialog(new JFrame(), "Invalid User or Password");
         return false;
     }
     
@@ -439,55 +372,11 @@ public final class UserHandler{
     
     public static boolean doesUserExist(String email, String studentID) {
         for (User user : usersList) {
-            if (email.equals(user.getEmail()) || studentID.equals(user.getStudentNumber())) {
+            if (email.equals(user.getEmail())) {
                 return true;
             }
         }
         return false;
-    }
-    
-    public static final void promoteUser(User user){
-        usersUpdating = true;
-        if (currentUser.getUserType() != User.UserType.ADMIN) {
-            JOptionPane.showMessageDialog(new JFrame(), "Cannot promote when not admin");
-            return;
-        }
-        
-        String query = "UPDATE user SET userType = ?, lastUpdated = ? WHERE email = ?";
-        try {
-            PreparedStatement pst = con.prepareCall(query);
-            pst.setString(1, User.UserType.ADMIN.name());
-            pst.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-            pst.setString(3, user.getEmail());
-            pst.execute();
-            JOptionPane.showMessageDialog(new JFrame(), "Promoted user "+user.getEmail());
-        } catch (SQLException ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(new JFrame(), "Promoting user "+user.getEmail()+"failed");
-        }
-        usersUpdating = false;
-    }
-    
-    public static final void demoteAdmin(User user){
-        usersUpdating = true;
-        if (currentUser.getUserType() != User.UserType.ADMIN) {
-            JOptionPane.showMessageDialog(new JFrame(), "Cannot demote when not admin");
-            return;
-        }
-        
-        String query = "UPDATE user SET userType = ?, lastUpdated = ? WHERE email = ?";
-        try {
-            PreparedStatement pst = con.prepareCall(query);
-            pst.setString(1, User.UserType.USER.name());
-            pst.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-            pst.setString(3, user.getEmail());
-            pst.execute();
-            JOptionPane.showMessageDialog(new JFrame(), "Demoted user "+user.getEmail());
-        } catch (SQLException ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(new JFrame(), "Demoting user "+user.getEmail()+"failed");
-        }
-        usersUpdating = false;
     }
 
     public static boolean isUsersUpdating() {
@@ -496,10 +385,6 @@ public final class UserHandler{
 
     public static ArrayList<User> getUsersList() {
         return usersList;
-    }
-    
-    public static User.UserType getCurrentUserType(){
-        return currentUser.getUserType();
     }
     
     public static User getCurrentUser() {
