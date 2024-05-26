@@ -32,18 +32,27 @@ public class habit extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
+        setLayout(null);
+
         jLabel1.setText("image");
+        add(jLabel1);
+        jLabel1.setBounds(6, 27, 33, 16);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Drink water");
+        add(jLabel2);
+        jLabel2.setBounds(57, 6, 125, 20);
 
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
         jLabel3.setText("0/1000mL");
+        add(jLabel3);
+        jLabel3.setBounds(57, 31, 125, 16);
 
         jButton1.setText("Log");
+        add(jButton1);
+        jButton1.setBounds(429, 24, 90, 23);
 
         jButton2.setText("jButton1");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,6 +88,8 @@ public class habit extends javax.swing.JPanel {
                             .addComponent(jLabel3))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
+        add(jButton2);
+        jButton2.setBounds(531, 24, 36, 23);
     }// </editor-fold>//GEN-END:initComponents
 
 

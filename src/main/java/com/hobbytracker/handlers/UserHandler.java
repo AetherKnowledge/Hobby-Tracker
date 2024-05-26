@@ -22,7 +22,7 @@ import objects.User;
 public final class UserHandler{
 
     private static Connection con;
-    private static boolean usersUpdating = false;
+    private static boolean isUpdating = false;
     private static boolean hasStarted = false;
     private static ArrayList<User> usersList = new ArrayList<>();
     private static User currentUser;
@@ -34,7 +34,7 @@ public final class UserHandler{
     }
     
     public static void addUser(User user){
-        usersUpdating = true;
+        isUpdating = true;
 
         try {
             String email,password,fullName;
@@ -72,11 +72,11 @@ public final class UserHandler{
             JOptionPane.showMessageDialog(new JFrame(), "Invalid Account","Error",0);
         }
         
-        usersUpdating = false;
+        isUpdating = false;
     }
     
     public static void updateUser(User user, String oldEmail){
-        usersUpdating = true;
+        isUpdating = true;
 
         String query = "UPDATE user SET email = ?, password = ?, fullName = ?, imageData = ?, lastUpdated = ? WHERE email = ?";
         try {
@@ -108,11 +108,11 @@ public final class UserHandler{
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        usersUpdating = false;
+        isUpdating = false;
     }
     
     public static void removeUser(User user){
-        usersUpdating = true;
+        isUpdating = true;
         String queryRegister = "DELETE FROM user WHERE email = '" + user.getEmail() + "'";
         try {
             PreparedStatement st = con.prepareStatement(queryRegister);
@@ -126,11 +126,11 @@ public final class UserHandler{
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(new JFrame(), "Invalid Account","Error",0);
         }
-        usersUpdating = false;
+        isUpdating = false;
     }
     
     private static void loadUsersOnline(){
-        usersUpdating = true;
+        isUpdating = true;
         usersList.removeAll(usersList);
         
         try {
@@ -146,21 +146,21 @@ public final class UserHandler{
         }
         
         System.out.println("Loading Users online complete");
-        usersUpdating = false;
+        isUpdating = false;
     }
     
     private static User seacrhUserOnOnline(String email) throws SQLException, Exception{
-        usersUpdating = true;
+        isUpdating = true;
         String query = "SELECT * FROM user WHERE email = '" + email +"'";
         ResultSet resultSet = con.createStatement().executeQuery(query);
 
         while (resultSet.next()) {
 
-            usersUpdating = false;
+            isUpdating = false;
             return getUser(resultSet);
         }
         
-        usersUpdating = false;
+        isUpdating = false;
         throw new Exception("User " + email + " not found");
         
     }
@@ -203,7 +203,7 @@ public final class UserHandler{
     
     public static boolean hasUsersUpdated(){
         boolean hasUsersUpdated = false;
-        usersUpdating = true;
+        isUpdating = true;
         try {
             for (int i = 0; i < usersList.size(); i++) {
                 User user = usersList.get(i);
@@ -279,7 +279,7 @@ public final class UserHandler{
             currentUser = null;
         }
         
-        usersUpdating = false;
+        isUpdating = false;
         if (hasUsersUpdated) {
             System.out.println("Users updated");
         }
@@ -296,7 +296,7 @@ public final class UserHandler{
     }
     
     public static void updateOnlineStatus(User user){
-        usersUpdating = true;
+        isUpdating = true;
         try {
             String updateSql = "UPDATE user SET status = ? WHERE email = ?";
             PreparedStatement updateStatement = con.prepareStatement(updateSql);
@@ -307,11 +307,11 @@ public final class UserHandler{
         } catch (SQLException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        usersUpdating = false;
+        isUpdating = false;
     }  
     
     public static boolean updateAllOnlineUsers(){
-        usersUpdating = true;
+        isUpdating = true;
         boolean hasChanged = false;
         for (User user : usersList) {
             String query = "SELECT status FROM user WHERE email = '" + user.getEmail() + "'";
@@ -328,7 +328,7 @@ public final class UserHandler{
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        usersUpdating = false;
+        isUpdating = false;
         if (hasChanged) {
             System.out.println("Online users updated");
         }
@@ -342,7 +342,7 @@ public final class UserHandler{
                 onlineCount++;
             }
         }
-        usersUpdating = false;
+        isUpdating = false;
         return onlineCount;
     }
     
@@ -380,7 +380,7 @@ public final class UserHandler{
     }
 
     public static boolean isUsersUpdating() {
-        return usersUpdating;
+        return isUpdating;
     }
 
     public static ArrayList<User> getUsersList() {
